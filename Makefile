@@ -7,10 +7,11 @@ PKGNAMESUFFIX=	-${UNIT_MODNAME}
 DISTFILES=	unit-${UNIT_VERSION}${EXTRACT_SUFX}:unit \
 		node-gyp-${NODE_GYP_VERSION}${EXTRACT_SUFX}:node_gyp
 
-DISTINFO_FILE=	${.CURDIR}/distinfo
-PATCHDIR=	${.CURDIR}/files
-
 COMMENT=	NodeJS module for NGINX Unit
+
+DISTINFO_FILE=	${.CURDIR}/distinfo
+
+PATCHDIR=	${.CURDIR}/files
 
 UNIT_MODNAME=	nodejs
 
