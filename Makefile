@@ -34,7 +34,7 @@ USE_RC_SUBR?=	# reset to empty
 
 MASTERDIR=	${.CURDIR}/../unit
 
-PLIST_DIRS+=	lib/node_modules/unit-http/build/Release/obj.target/unit-http
+PLIST_DIRS=
 PLIST_FILES=	lib/node_modules/unit-http/addon.cpp \
 		lib/node_modules/unit-http/binding_pub.gyp \
 		lib/node_modules/unit-http/binding.gyp \
@@ -103,9 +103,9 @@ do-install:
 post-install:
 	${INSTALL_DATA} ${WRKSRC}/src/nodejs/unit-http/package.json.orig \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/package.json
-	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/.deps
+	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/.deps \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http
 	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Makefile \
-		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http/*.o \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/binding.Makefile \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.target.mk \
