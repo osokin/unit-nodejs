@@ -5,7 +5,7 @@
  ${NXT_NODE}: ${NXT_NODE}-copy $NXT_BUILD_DIR/$NXT_LIB_UNIT_STATIC
  	${NXT_NODE_EXPORTS} && \\
 -	cd ${NXT_NODE_TMP} && ${NXT_NODE_GYP} configure build clean
-+	cd ${NXT_NODE_TMP} && ${NXT_NODE_GYP} configure build clean --devdir=${_DEVDIR}
++	cd ${NXT_NODE_TMP} && ${NXT_NODE_GYP} configure build clean --devdir=${_DEVDIR} --offline
  
  ${NXT_NODE}-copy: ${NXT_NODE_VERSION_FILE}
  	mkdir -p ${NXT_BUILD_DIR}/src/

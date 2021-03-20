@@ -1,0 +1,15 @@
+--- src/nodejs/unit-http/package.json.orig	2021-03-19 15:58:15.259816000 -0400
++++ src/nodejs/unit-http/package.json	2021-03-19 15:58:52.582214000 -0400
+@@ -25,9 +25,9 @@
+     ],
+     "scripts": {
+         "clean": "node-gyp clean",
+-        "configure": "node-gyp configure",
+-        "build": "node-gyp build",
+-        "install": "node-gyp configure build"
++        "configure": "node-gyp configure --offline --devdir=%%DEVDIR%%",
++        "build": "node-gyp build --offline --devdir=%%DEVDIR%%",
++        "install": "node-gyp configure build --offline --devdir=%%DEVDIR%%"
+     },
+     "author": "Alexander Borisov",
+     "license": "Apache-2.0",

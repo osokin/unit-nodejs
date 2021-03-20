@@ -74,6 +74,8 @@ post-extract:
 post-patch:
 	${REINPLACE_CMD} -i "" -e "s|%%PREFIX%%|${PREFIX}|g" \
 		${WRKSRC}/src/nodejs/unit-http/binding.gyp
+	${REINPLACE_CMD} -i "" -e "s|%%DEVDIR%%|${_DEVDIR}|g" \
+		${WRKSRC}/src/nodejs/unit-http/package.json
 
 pre-configure:
 	(_NODEVER=$$(${_NODECMD} | ${SED} -n 's|^v\(.*\)|\1|p') && \
