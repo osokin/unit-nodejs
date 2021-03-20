@@ -34,6 +34,7 @@ USE_RC_SUBR?=	# reset to empty
 
 MASTERDIR=	${.CURDIR}/../unit
 
+PLIST_DIRS+=	lib/node_modules/unit-http/build/Release/obj.target/unit-http
 PLIST_FILES=	lib/node_modules/unit-http/addon.cpp \
 		lib/node_modules/unit-http/binding_pub.gyp \
 		lib/node_modules/unit-http/binding.gyp \
@@ -54,6 +55,9 @@ PLIST_FILES=	lib/node_modules/unit-http/addon.cpp \
 		lib/node_modules/unit-http/websocket_router.js \
 		lib/node_modules/unit-http/websocket_server.js \
 		lib/node_modules/unit-http/websocket.js \
+		lib/node_modules/unit-http/build/binding.Makefile \
+		lib/node_modules/unit-http/build/config.gypi \
+		lib/node_modules/unit-http/build/unit-http.target.mk \
 		lib/node_modules/unit-http/build/Release/unit-http.node \
 		lib/node_modules/unit-http/build/Release/obj.target/unit-http.node
 
@@ -95,5 +99,16 @@ do-build:
 
 do-install:
 	@cd ${CONFIGURE_WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} node-local-install
+
+post-install:
+	${INSTALL_DATA} ${WRKSRC}/src/nodejs/unit-http/package.json.orig \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/package.json
+	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Makefile
+	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/.deps
+	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http/*.o
+	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/binding.Makefile
+	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi
+	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.target.mk
+	${RM} -rf ${STAGEDIR}${PREFIX}/lib/package-lock.json
 
 .include "${MASTERDIR}/Makefile"
