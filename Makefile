@@ -58,8 +58,7 @@ PLIST_FILES=	lib/node_modules/unit-http/addon.cpp \
 		lib/node_modules/unit-http/build/binding.Makefile \
 		lib/node_modules/unit-http/build/config.gypi \
 		lib/node_modules/unit-http/build/unit-http.target.mk \
-		lib/node_modules/unit-http/build/Release/unit-http.node \
-		lib/node_modules/unit-http/build/Release/obj.target/unit-http.node
+		lib/node_modules/unit-http/build/Release/unit-http.node
 
 _NODECMD=	${LOCALBASE}/bin/node --version
 _DEVDIR:=	${WRKDIR}/.devdir
@@ -104,7 +103,7 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/src/nodejs/unit-http/package.json.orig \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/package.json
 	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/.deps \
-		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target
 	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Makefile \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/binding.Makefile \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi \
