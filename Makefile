@@ -23,7 +23,7 @@ RUN_DEPENDS=	unitd:www/unit
 UNIT_VERSION=		1.22.0
 NODE_GYP_VERSION=	7.1.2
 
-USES=		python:3.6+
+USES=		python:build
 
 MAKE_ENV+=	DISTDIR="${DISTDIR}"
 MAKE_ENV+=	NODEJS_VERSION="${NODEJS_VERSION}"
@@ -103,12 +103,12 @@ do-install:
 post-install:
 	${INSTALL_DATA} ${WRKSRC}/src/nodejs/unit-http/package.json.orig \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/package.json
-	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Makefile
 	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/.deps
-	${RM} -rf ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http/*.o
-	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/binding.Makefile
-	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi
-	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.target.mk
-	${RM} -rf ${STAGEDIR}${PREFIX}/lib/package-lock.json
+	${RM} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Makefile \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/obj.target/unit-http/*.o \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/binding.Makefile \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi \
+		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.target.mk \
+		${STAGEDIR}${PREFIX}/lib/package-lock.json
 
 .include "${MASTERDIR}/Makefile"
