@@ -89,5 +89,6 @@ post-install:
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/config.gypi \
 		${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.target.mk \
 		${STAGEDIR}${PREFIX}/lib/package-lock.json
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/node_modules/unit-http/build/Release/unit-http.node
 
 .include "${MASTERDIR}/Makefile"
