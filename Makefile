@@ -8,29 +8,33 @@ DISTFILES=	unit-${UNIT_VERSION}${EXTRACT_SUFX}:unit \
 
 COMMENT=	NodeJS module for NGINX Unit
 
-DISTINFO_FILE=	${.CURDIR}/distinfo
-
-PATCHDIR=	${.CURDIR}/files
-
-UNIT_MODNAME=	nodejs
+LICENSE=	APACHE20
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	${LOCALBASE}/lib/libunit.a:devel/libunit \
 		node:www/node \
 		npm:www/npm
 RUN_DEPENDS=	unitd:www/unit
 
+USES=		python:build
+
+DISTINFO_FILE=	${.CURDIR}/distinfo
+
+PATCHDIR=	${.CURDIR}/files
+
 UNIT_VERSION=		1.22.0
 NODE_GYP_VERSION=	7.1.2
-
-USES=		python:build
 
 USE_GITHUB=	nodefault
 GH_TUPLE=	nodejs:node-gyp:${NODE_GYP_VERSION}
 
-MAKE_ENV+=	DISTDIR="${DISTDIR}"
-MAKE_ENV+=	NODEJS_VERSION="${NODEJS_VERSION}"
-MAKE_ENV+=	PYTHON="${PYTHON_CMD}"
-MAKE_ENV+=	_DEVDIR="${_DEVDIR}"
+OPTIONS_DEFINE=	# reset
+
+UNIT_MODNAME=	nodejs
+MAKE_ENV+=	DISTDIR="${DISTDIR}" \
+		NODEJS_VERSION="${NODEJS_VERSION}" \
+		PYTHON="${PYTHON_CMD}" \
+		_DEVDIR="${_DEVDIR}"
 
 USE_RC_SUBR?=	# reset to empty
 
