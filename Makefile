@@ -1,8 +1,7 @@
 # Created by: Sergey Osokin <osa@FreeBSD.org>
 # $FreeBSD$
 
-MASTER_SITES=	https://unit.nginx.org/download/:unit \
-		https://codeload.github.com/nodejs/node-gyp/tar.gz/v${NODE_GYP_VERSION}?dummy=/:node_gyp
+MASTER_SITES=	https://unit.nginx.org/download/:unit
 PKGNAMESUFFIX=	-${UNIT_MODNAME}
 DISTFILES=	unit-${UNIT_VERSION}${EXTRACT_SUFX}:unit \
 		node-gyp-${NODE_GYP_VERSION}${EXTRACT_SUFX}:node_gyp
@@ -25,6 +24,9 @@ NODE_GYP_VERSION=	7.1.2
 
 USES=		python:build
 
+USE_GITHUB=	nodefault
+GH_TUPLE=	nodejs:node-gyp:${NODE_GYP_VERSION}
+
 MAKE_ENV+=	DISTDIR="${DISTDIR}"
 MAKE_ENV+=	NODEJS_VERSION="${NODEJS_VERSION}"
 MAKE_ENV+=	PYTHON="${PYTHON_CMD}"
@@ -34,31 +36,9 @@ USE_RC_SUBR?=	# reset to empty
 
 MASTERDIR=	${.CURDIR}/../unit
 
-PLIST_DIRS=
-PLIST_FILES=	lib/node_modules/unit-http/addon.cpp \
-		lib/node_modules/unit-http/binding_pub.gyp \
-		lib/node_modules/unit-http/binding.gyp \
-		lib/node_modules/unit-http/http_server.js \
-		lib/node_modules/unit-http/http.js \
-		lib/node_modules/unit-http/nxt_napi.h \
-		lib/node_modules/unit-http/package.json \
-		lib/node_modules/unit-http/README.md \
-		lib/node_modules/unit-http/socket.js \
-		lib/node_modules/unit-http/unit.cpp \
-		lib/node_modules/unit-http/unit.h \
-		lib/node_modules/unit-http/utils.js \
-		lib/node_modules/unit-http/version.h \
-		lib/node_modules/unit-http/websocket_connection.js \
-		lib/node_modules/unit-http/websocket_frame.js \
-		lib/node_modules/unit-http/websocket_request.js \
-		lib/node_modules/unit-http/websocket_router_request.js \
-		lib/node_modules/unit-http/websocket_router.js \
-		lib/node_modules/unit-http/websocket_server.js \
-		lib/node_modules/unit-http/websocket.js \
-		lib/node_modules/unit-http/build/binding.Makefile \
-		lib/node_modules/unit-http/build/config.gypi \
-		lib/node_modules/unit-http/build/unit-http.target.mk \
-		lib/node_modules/unit-http/build/Release/unit-http.node
+PLIST_FILES=	# reset
+PLIST_DIRS=	# reset
+PLIST=		${.CURDIR}/pkg-plist
 
 _NODECMD=	${LOCALBASE}/bin/node --version
 _DEVDIR:=	${WRKDIR}/.devdir
@@ -88,16 +68,16 @@ pre-configure:
 	)
 
 post-configure:
-	@cd ${CONFIGURE_WRKSRC} && \
+	cd ${CONFIGURE_WRKSRC} && \
 	${SETENV} ${MAKE_ENV} ${CONFIGURE_CMD} nodejs \
 		--node-gyp=${_DEVDIR}/bin/node-gyp \
 		--local=${STAGEDIR}${PREFIX}/lib/node_modules/unit-http
 
 do-build:
-	@cd ${CONFIGURE_WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} node
+	cd ${CONFIGURE_WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} node
 
 do-install:
-	@cd ${CONFIGURE_WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} node-local-install
+	cd ${CONFIGURE_WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} node-local-install
 
 post-install:
 	${INSTALL_DATA} ${WRKSRC}/src/nodejs/unit-http/package.json.orig \
