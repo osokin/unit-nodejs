@@ -2,7 +2,7 @@
 # $FreeBSD$
 
 MASTER_SITES=	https://unit.nginx.org/download/:unit
-PKGNAMESUFFIX=	-${UNIT_MODNAME}
+PKGNAMESUFFIX=	-${UNIT_MODNAME}${FLAVOR:S|node||g}
 DISTFILES=	unit-${UNIT_VERSION}${EXTRACT_SUFX}:unit \
 		node-gyp-${NODE_GYP_VERSION}${EXTRACT_SUFX}:node_gyp
 
@@ -11,10 +11,35 @@ COMMENT=	NodeJS module for NGINX Unit
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	${LOCALBASE}/lib/libunit.a:devel/libunit \
-		node:www/node \
-		npm:www/npm
-RUN_DEPENDS=	unitd:www/unit
+FLAVORS=	node node14 node12 node10
+FLAVOR?=	${FLAVORS:[1]}
+
+node10_BUILD_DEPENDS=	node:www/node10 \
+			npm:www/npm-node10
+node12_BUILD_DEPENDS=	node:www/node12 \
+			npm:www/npm-node12
+node14_BUILD_DEPENDS=	node:www/node14 \
+			npm:www/npm-node14
+node_BUILD_DEPENDS=	node:www/node \
+			npm:www/npm
+
+node10_RUN_DEPENDS=	node:www/node10
+node12_RUN_DEPENDS=	node:www/node12
+node14_RUN_DEPENDS=	node:www/node14
+node_RUN_DEPENDS=	node:www/node
+
+node10_CONFLICTS_INSTALL=	unit-${UNIT_MODNAME} unit-${UNIT_MODNAME}14 unit-${UNIT_MODNAME}12
+node12_CONFLICTS_INSTALL=	unit-${UNIT_MODNAME} unit-${UNIT_MODNAME}14 unit-${UNIT_MODNAME}10
+node14_CONFLICTS_INSTALL=	unit-${UNIT_MODNAME} unit-${UNIT_MODNAME}12 unit-${UNIT_MODNAME}10
+node_CONFLICTS_INSTALL=		unit-${UNIT_MODNAME}14 unit-${UNIT_MODNAME}12 unit-${UNIT_MODNAME}10
+
+node10_DESC=	Use www/node10 as backend
+node12_DESC=	Use www/node12 as backend
+node14_DESC=	Use www/node14 as backend
+node_DESC=	Use www/node as backend
+
+BUILD_DEPENDS+=	${LOCALBASE}/lib/libunit.a:devel/libunit
+RUN_DEPENDS+=	unitd:www/unit
 
 USES=		python:build
 
